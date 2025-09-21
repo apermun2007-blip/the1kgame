@@ -65,7 +65,7 @@ const player = add([
   "player",
 ]);
 
-loadSound("end", "/assets/sfx/end.OGG")
+loadSound("end", "/assets/sfx/end.ogg")
 
 const music = play("end", {
 	loop: true,
