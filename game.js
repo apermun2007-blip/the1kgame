@@ -24,6 +24,7 @@ const mapHeight = 127 * TILE_SIZE;
 let isJumping = false;
 let jumpTimer = 0;
 let springActive = false;
+alive = true;
 
 let moveSpeed = 0;           
 const maxSpeed = 160;        
@@ -177,8 +178,12 @@ async function main() {
 
 // --- Muerte ---
 player.onCollide("spike", () => {
-  player.pos = startPos.clone();
-  player.vel = vec2(0, 0);
+  alive = false;
+  wait(0.3, () => {
+    alive = true;
+    player.pos = startPos.clone();
+    player.vel = vec2(0, 0);
+  });
 });
 // --- Muelle ---
 player.onCollide("spring", () => {
