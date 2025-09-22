@@ -15,6 +15,22 @@ onKeyPress("right", () => inputs.push({ action: "right", time: Date.now() }));
 onKeyPress("space", () => inputs.push({ action: "jump", time: Date.now() }));
 // ------------------------------------------
 
+function sendInputs(inputs) {
+  const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeHJlZ1C7OiTJxBl7X9uoF5BVpHopHfSxVjJauNDROaYIUyxw/viewform?usp=pp_url&entry.52222451=holabuenas";
+  const entryID = "entry.52222451"; 
+
+  const data = new FormData();
+  data.append(entryID, JSON.stringify(inputs));
+
+  fetch(formURL, {
+    method: "POST",
+    body: data,
+    mode: "no-cors"
+  });
+
+  console.log("Inputs enviados:", inputs);
+}
+
 setGravity(1600);
 const TILE_SIZE = 16;
 const mapWidth = 127 * TILE_SIZE;
@@ -225,16 +241,7 @@ player.onCollide("colliders4", () => {
 
 player.onCollide("colliders2", () => {
 
-  console.log("Victoria, inputs:", inputs);
-
-  fetch("save_inputs.php?key=CLAVE_SECRETA", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(inputs),
-  })
-  .then(res => res.text())
-  .then(msg => console.log("Servidor responde:", msg))
-  .catch(err => console.error("Error enviando:", err));
+  sendInputs(inputs);
 
 
   player.pos = startPos.clone();
