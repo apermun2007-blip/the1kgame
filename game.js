@@ -10,13 +10,33 @@ kaboom({
 let inputs = [];
 
 // Captura teclado
-onKeyPress("left", () => inputs.push({ action: "left", time: Date.now() }));
-onKeyPress("right", () => inputs.push({ action: "right", time: Date.now() }));
-onKeyPress("space", () => inputs.push({ action: "jump", time: Date.now() }));
+onKeyPress("arrowLeft", () => {
+  inputs.push({ action: "left_start", time: Date.now() });
+});
+
+onKeyRelease("arrowLeft", () => {
+  inputs.push({ action: "left_stop", time: Date.now() });
+});
+
+onKeyPress("arrowRight", () => {
+  inputs.push({ action: "right_start", time: Date.now() });
+});
+
+onKeyRelease("arrowRight", () => {
+  inputs.push({ action: "right_stop", time: Date.now() });
+});
+
+onKeyPress("space", () => {
+  inputs.push({ action: "space_start", time: Date.now() });
+});
+
+onKeyRelease("space", () => {
+  inputs.push({ action: "space_stop", time: Date.now() });
+});
 // ------------------------------------------
 
 function sendInputs(inputs) {
-  const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeHJlZ1C7OiTJxBl7X9uoF5BVpHopHfSxVjJauNDROaYIUyxw/viewform?usp=pp_url&entry.52222451=holabuenas";
+  const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeHJlZ1C7OiTJxBl7X9uoF5BVpHopHfSxVjJauNDROaYIUyxw/formResponse?entry.52222451=holabuenas";
   const entryID = "entry.52222451"; 
 
   const data = new FormData();
