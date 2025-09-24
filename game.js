@@ -10,19 +10,19 @@ kaboom({
 let inputs = [];
 
 // Captura teclado
-onKeyPress("arrowLeft", () => {
+onKeyPress("left", () => {
   inputs.push({ action: "left_start", time: Date.now() });
 });
 
-onKeyRelease("arrowLeft", () => {
+onKeyRelease("left", () => {
   inputs.push({ action: "left_stop", time: Date.now() });
 });
 
-onKeyPress("arrowRight", () => {
+onKeyPress("right", () => {
   inputs.push({ action: "right_start", time: Date.now() });
 });
 
-onKeyRelease("arrowRight", () => {
+onKeyRelease("right", () => {
   inputs.push({ action: "right_stop", time: Date.now() });
 });
 
@@ -60,7 +60,6 @@ const mapHeight = 127 * TILE_SIZE;
 let isJumping = false;
 let jumpTimer = 0;
 let springActive = false;
-alive = true;
 
 let moveSpeed = 0;           
 const maxSpeed = 160;        
@@ -214,12 +213,9 @@ async function main() {
 
 // --- Muerte ---
 player.onCollide("spike", () => {
-  alive = false;
-  wait(0.3, () => {
-    alive = true;
-    player.pos = startPos.clone();
-    player.vel = vec2(0, 0);
-  });
+  player.vel = vec2(0, 0);
+  player.pos = startPos.clone();
+  recordedInputs = [];
 });
 // --- Muelle ---
 player.onCollide("spring", () => {
@@ -436,13 +432,17 @@ onUpdate(() => {
 });
 
 onUpdate(() => {
-  if (player.pos.y > 1400) {
+  if (1890 > player.pos.y > 1400) {
     if (player.vel.y > 250) { // límite de caída
       player.vel.y = 250;
+    } 
+  } else if (player.pos.y > 1976) {
+      if (player.vel.y > 150) { // límite de caída
+        player.vel.y = 20;
+      }
   } else {
       if (player.vel.y > 300) { // límite de caída
         player.vel.y = 300;
       }
     }
-  }
 });
